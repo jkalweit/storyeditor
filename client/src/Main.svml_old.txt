@@ -1,0 +1,204 @@
+{
+export interface Story extends SyncData {
+    title: string;
+    nodes: {[key: string]: StoryNode};
+}
+export interface StoryNode extends SyncData {
+    number: number;
+    text: string;
+}
+export interface StoryNodeOption extends SyncData {
+    number: number;
+    text: string;
+}
+}
+
+
+MainView
+    @{ 
+        selectedStory: Story;
+    }
+    .style { 
+        position: absolute;
+        left: 0; top: 0; right: 0; bottom: 0;
+    }
+    #storyList:StoryList $data.stories
+        onSelected(story: Story) {
+            (this as any).selectedStory = story;
+            this.editor.update(story);
+        }
+    #editor:StoryEditor
+    render() { 
+        if(!this.data.stories) this.data.set('stories', {});
+        if((this as any).selectedStory) (this as any).selectedStory = this.data.stories[(this as any).selectedStory.key];
+        if(!(this as any).first) {
+            (this as any).first = true;
+            (this as any).selectedStory = SyncUtils.toArray(this.data.stories)[0];
+        }
+        this.editor.update(this.selectedStory);
+    }
+
+StoryList
+    .style {
+        border-right: 1px solid #BBB;
+        position: absolute;
+        left: 0; top: 0; bottom: 0;
+        width: 200px;
+        padding: 0 1em;
+        box-sizing: border-box;
+    }
+    #title:h1 'Story Lines'
+    #addBtn:button 'Add Story' 
+        .style { width: 100%; }
+        onClick() {
+            let story: Story = {
+                title: 'New Story',
+                nodes: {}
+            } as Story;
+            this.data.setItem(story)
+        }
+    #storyItemList:SyncList({ item: StoryItem }) $data
+        .style { width: 100%; margin-top: 1em; }
+        onSelected(view: StoryItem, story: Story) { this.emit('selected', story) }
+
+StoryItem
+    .style { 
+        width: 100%; 
+        border: 1px solid #DDD;
+        }
+    #title:span $data.title
+    onClick() { 
+        this.emit('selected', this.data)
+    }
+
+StoryEditor
+    .style {
+        display: none;
+        position: absolute;
+        left: 200px;
+        right: 0; top: 0; bottom: 0;
+        padding: 1em;
+    }
+    #delBtn:button 'Delete Story' onClick() { this.data.parent.remove(this.data.key); this.hide(); }
+        .style { float: right; }
+    #title:Input({ twoway: true, label: 'Title', key: 'title' }) $data
+    #addBtn:button 'Add Node'
+        onClick() {
+            let max = 0;
+            SyncUtils.forEach(this.data.nodes, (node: StoryNode) => {
+                if(node.number > max) { max = node.number }
+            });
+            let node = {
+                number: max + 1,
+                text: '',
+                options: {}
+            };
+            this.data.nodes.setItem(node as any);
+        }
+    #nodesList:SyncList({ item: MainStoryNode }) $data.nodes
+    render() {
+        if(!this.data) {
+            this.el.style.display = 'none';
+        } else {
+            if(!this.data.nodes) { this.data.set('nodes', {}) }
+            this.el.style.display = 'block';
+        }
+    }
+
+MainStoryNode
+    .style {
+        width: 500px;
+        border: 1px solid #CCC;
+    }
+    #number:span $data.number
+    #text:textarea onChange() { this.data.set('text', this.text.value); }
+    #list:SyncList({ item: StoryNodeOptionView, sortField: 'number' }) $data.options
+    #addBtn:button 'Add Option'
+        onClick() {
+            let max = 0;
+            SyncUtils.forEach(this.data.options, (option: StoryNodeOption) => {
+                if(option.number > max) { max = option.number }
+            });
+            let option = {
+                number: max + 1,
+                text: '',
+                destination: 0
+            };
+            this.data.options.setItem(option);
+        }
+    render() {
+        this.text.value = this.data.text;
+    }
+
+
+StoryNodeOptionView
+    .style {
+        border: 1px solid #CCC;
+        margin-left: 2em;
+        display: 'flex';
+    }
+    #destination:input .style { width: 3em; }
+        onChange() { 
+            let str = this.destination.value;
+            let dest: number = parseInt(str);
+            if(!isNaN(dest)) {
+                this.data.set('destination', dest); 
+            } else {
+                alert('Destination must be a number.');
+            }
+        }
+    #text:textarea .style { flex: 1; }
+        onChange() { this.data.set('text', this.text.value); }
+
+    #delBtn:button 'X' onClick() { this.data.parent.remove(this.data.key); }
+    render() {
+        this.text.value = this.data.text;
+        this.destination.value = this.data.destination;
+    }
+
+Input
+    .style { 
+        width: 100%;
+        display: flex; 
+    }
+    #input:input
+        .style {
+            flex: 1;
+            font-size: 1em;
+            padding: 0.5em 0;
+            background-color: transparent;
+            border: none;
+            border-bottom: 1px solid rgba(0,0,0,0.5);
+    }
+	onChange() { 
+        let val = this.input.value;
+        if(this.options.twoway && this.options.key) {
+            this.data.set(this.options.key, val);
+        }
+        this.emit('change', val); 
+    }
+    render() {		
+        if(this.data) {
+            this.input.value = this.options.key ? this.data.get(this.options.key) : this.data;
+        }
+    }
+
+
+/*
+MainView
+    #title:h1 'Todo List'
+    #list:TodoList $data.todoItems 
+    render() { if(!this.data.todoItems) this.data.set('todoItems', {}); }
+
+TodoList
+    #newItem:input
+    #addBtn:button 'Add Item' 
+        onClick() { 
+            this.data.setItem({ text: this.newItem.value }); 
+            this.newItem.value = ''; }
+    #list:SyncList({ item: TodoItem }) $data
+
+TodoItem
+    #text:span $data.text .style { display: inline-block; width: 15em; }
+    #delBtn:button 'X' onClick() { this.data.parent.remove(this.data.key); }
+*/
