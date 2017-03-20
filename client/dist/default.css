@@ -54,6 +54,20 @@ h1,h2,h3 {
    animation: fadeGreen .5s ease-in-out 0s;
 }
 
+.CodeMirror {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	height: 100%;
+	overflow: hidden;
+}
+
+.CodeMirror-scroll {
+	overflow: auto;
+}
+
 @font-face {
 	font-family: 'Material Icons';
 	font-style: normal;

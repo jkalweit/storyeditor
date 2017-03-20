@@ -1,8 +1,19 @@
 {
 import { parse, ProgNode, ChapterNode, PromptNode, PromptOptionNode, NextNode } from './parser';
 import * as smoothscroll from './lib/smoothscroll'
+/*
+import './lib/codemirror/codemirror.css'
+import './lib/codemirror/codemirror.js'
+import './lib/codemirror/css.js'
+import './lib/codemirror/javascript.js'
+import './lib/codemirror/svml.js'
+import './lib/codemirror/vim.js'
+*/
+
 
 smoothscroll.polyfill();
+
+declare var CodeMirror: any;
 
 export interface MainData extends SyncData {
     stories: {[key: string]: Story};
@@ -90,8 +101,12 @@ StoryEditorControls[row]
     }
 
 StoryAndPlayer<Story>[row]
-    @{ saveHandle: number; }
+    @{ 
+        saveHandle: number; 
+        cm: any;
+    }
     .style { height: 100%; }
+    /*
     #story:textarea[row-fill]
         .style {
             height: 100%;
@@ -114,6 +129,16 @@ StoryAndPlayer<Story>[row]
             if(this.saveHandle) clearTimeout(this.saveHandle);
             this.saveHandle = setTimeout(this.save.bind(this), 1000);
          }
+        */
+    #cmHolder[row-fill]
+        .style { position: relative; }
+        onKeydown(e) {
+			if(e.ctrlKey && e.keyCode === 83) {
+				e.preventDefault();
+				this.save();
+				return false;
+			}
+        }
     #player:Player[row-nofill]
         .style { 
             padding-top: 1em;
@@ -129,15 +154,26 @@ StoryAndPlayer<Story>[row]
         }
     }
     save() {
-        this.data.set('text', this.story.value); 
+        this.data.set('text', this.cm.getValue()); 
         this.saveHandle = 0;
+    }
+    init() {
+        this.cm = CodeMirror(this.cmHolder, {
+			mode: "story",
+			keyMap: 'default', //localSettings.keyMap || 'default',
+			//lineNumbers: true,
+            theme: 'cobalt'
+		});
     }
     render() {
         if(!this.data) {
             this.el.style.display = 'none';
         } else {
             this.el.style.display = 'flex';
-            this.story.value = this.data.text;
+            let cursor = this.cm.getCursor();
+            this.cm.setValue(this.data.text);
+            this.cm.setCursor(cursor);
+            //this.story.value = this.data.text;
             this.parse();
         }
     }

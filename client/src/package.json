@@ -5,7 +5,8 @@
   "main": "Main.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "webpack": "webpack --watch-poll --watch"
+    "webpack": "webpack --watch-poll --watch",
+    "svml": "nodemon ../../../../svml/index.js ."
   },
   "author": "",
   "license": "ISC",
@@ -15,6 +16,8 @@
   },
   "devDependencies": {
     "@types/socket.io-client": "^1.4.29",
+    "css-loader": "^0.27.3",
+    "style-loader": "^0.14.1",
     "ts-loader": "^2.0.0",
     "typescript": "^2.1.6",
     "webpack": "^2.2.1"

@@ -34,7 +34,7 @@ chokidar.watch('./client/dist', { depth: 99 }).on('change', (filePath) => {
 
 
 
-server.listen(process.env.PORT || 13374, process.env.IP || "0.0.0.0", function(){
+server.listen(process.env.PORT || 13378, process.env.IP || "0.0.0.0", function(){
   var addr = server.address();
   console.log("Sync Server listening at", addr.address + ":" + addr.port);
 });

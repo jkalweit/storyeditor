@@ -1,41 +1,41 @@
 /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
-
+/******/
 /******/ 	// The require function
 /******/ 	function __webpack_require__(moduleId) {
-
+/******/
 /******/ 		// Check if module is in cache
 /******/ 		if(installedModules[moduleId])
 /******/ 			return installedModules[moduleId].exports;
-
+/******/
 /******/ 		// Create a new module (and put it into the cache)
 /******/ 		var module = installedModules[moduleId] = {
 /******/ 			i: moduleId,
 /******/ 			l: false,
 /******/ 			exports: {}
 /******/ 		};
-
+/******/
 /******/ 		// Execute the module function
 /******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
-
+/******/
 /******/ 		// Flag the module as loaded
 /******/ 		module.l = true;
-
+/******/
 /******/ 		// Return the exports of the module
 /******/ 		return module.exports;
 /******/ 	}
-
-
+/******/
+/******/
 /******/ 	// expose the modules object (__webpack_modules__)
 /******/ 	__webpack_require__.m = modules;
-
+/******/
 /******/ 	// expose the module cache
 /******/ 	__webpack_require__.c = installedModules;
-
+/******/
 /******/ 	// identity function for calling harmony imports with the correct context
 /******/ 	__webpack_require__.i = function(value) { return value; };
-
+/******/
 /******/ 	// define getter function for harmony exports
 /******/ 	__webpack_require__.d = function(exports, name, getter) {
 /******/ 		if(!__webpack_require__.o(exports, name)) {
@@ -46,7 +46,7 @@
 /******/ 			});
 /******/ 		}
 /******/ 	};
-
+/******/
 /******/ 	// getDefaultExport function for compatibility with non-harmony modules
 /******/ 	__webpack_require__.n = function(module) {
 /******/ 		var getter = module && module.__esModule ?
@@ -55,15 +55,15 @@
 /******/ 		__webpack_require__.d(getter, 'a', getter);
 /******/ 		return getter;
 /******/ 	};
-
+/******/
 /******/ 	// Object.prototype.hasOwnProperty.call
 /******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
-
+/******/
 /******/ 	// __webpack_public_path__
 /******/ 	__webpack_require__.p = "";
-
+/******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 56);
+/******/ 	return __webpack_require__(__webpack_require__.s = 70);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -104,7 +104,7 @@ module.exports = g;
  * Expose `debug()` as the module.
  */
 
-exports = module.exports = __webpack_require__(28);
+exports = module.exports = __webpack_require__(41);
 exports.log = log;
 exports.formatArgs = formatArgs;
 exports.save = save;
@@ -275,7 +275,7 @@ function localstorage(){
   } catch (e) {}
 }
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(41)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(54)))
 
 /***/ }),
 /* 2 */
@@ -285,15 +285,15 @@ function localstorage(){
  * Module dependencies.
  */
 
-var keys = __webpack_require__(35);
+var keys = __webpack_require__(48);
 var hasBinary = __webpack_require__(12);
-var sliceBuffer = __webpack_require__(24);
-var after = __webpack_require__(23);
-var utf8 = __webpack_require__(54);
+var sliceBuffer = __webpack_require__(32);
+var after = __webpack_require__(31);
+var utf8 = __webpack_require__(68);
 
 var base64encoder;
 if (global && global.ArrayBuffer) {
-  base64encoder = __webpack_require__(26);
+  base64encoder = __webpack_require__(34);
 }
 
 /**
@@ -351,7 +351,7 @@ var err = { type: 'error', data: 'parser error' };
  * Create a blob api even for blob builder when vendor prefixes exist
  */
 
-var Blob = __webpack_require__(27);
+var Blob = __webpack_require__(36);
 
 /**
  * Encodes a packet.
@@ -1243,7 +1243,7 @@ Transport.prototype.onClose = function () {
 
 /* WEBPACK VAR INJECTION */(function(global) {// browser shim for xmlhttprequest module
 
-var hasCORS = __webpack_require__(37);
+var hasCORS = __webpack_require__(49);
 
 module.exports = function (opts) {
   var xdomain = opts.xdomain;
@@ -1333,11 +1333,11 @@ exports.decode = function(qs){
  * Module dependencies.
  */
 
-var debug = __webpack_require__(46)('socket.io-parser');
-var json = __webpack_require__(38);
-var Emitter = __webpack_require__(45);
-var binary = __webpack_require__(44);
-var isBuf = __webpack_require__(18);
+var debug = __webpack_require__(59)('socket.io-parser');
+var json = __webpack_require__(51);
+var Emitter = __webpack_require__(58);
+var binary = __webpack_require__(57);
+var isBuf = __webpack_require__(19);
 
 /**
  * Protocol version.
@@ -1772,9 +1772,9 @@ module.exports = function(obj, fn){
  */
 
 var XMLHttpRequest = __webpack_require__(6);
-var XHR = __webpack_require__(33);
-var JSONP = __webpack_require__(32);
-var websocket = __webpack_require__(34);
+var XHR = __webpack_require__(46);
+var JSONP = __webpack_require__(45);
+var websocket = __webpack_require__(47);
 
 /**
  * Export transports.
@@ -1835,7 +1835,7 @@ var Transport = __webpack_require__(5);
 var parseqs = __webpack_require__(7);
 var parser = __webpack_require__(2);
 var inherit = __webpack_require__(4);
-var yeast = __webpack_require__(20);
+var yeast = __webpack_require__(21);
 var debug = __webpack_require__(1)('engine.io-client:polling');
 
 /**
@@ -2083,7 +2083,7 @@ Polling.prototype.uri = function () {
  * Module requirements.
  */
 
-var isArray = __webpack_require__(36);
+var isArray = __webpack_require__(14);
 
 /**
  * Module exports.
@@ -2159,6 +2159,15 @@ module.exports = function(arr, obj){
 /* 14 */
 /***/ (function(module, exports) {
 
+module.exports = Array.isArray || function (arr) {
+  return Object.prototype.toString.call(arr) == '[object Array]';
+};
+
+
+/***/ }),
+/* 15 */
+/***/ (function(module, exports) {
+
 /**
  * Parses an URI
  *
@@ -2201,7 +2210,7 @@ module.exports = function parseuri(str) {
 
 
 /***/ }),
-/* 15 */
+/* 16 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
@@ -2209,15 +2218,15 @@ module.exports = function parseuri(str) {
  * Module dependencies.
  */
 
-var eio = __webpack_require__(29);
-var Socket = __webpack_require__(17);
+var eio = __webpack_require__(42);
+var Socket = __webpack_require__(18);
 var Emitter = __webpack_require__(3);
 var parser = __webpack_require__(8);
-var on = __webpack_require__(16);
+var on = __webpack_require__(17);
 var bind = __webpack_require__(9);
 var debug = __webpack_require__(1)('socket.io-client:manager');
 var indexOf = __webpack_require__(13);
-var Backoff = __webpack_require__(25);
+var Backoff = __webpack_require__(33);
 
 /**
  * IE6+ hasOwnProperty
@@ -2767,7 +2776,7 @@ Manager.prototype.onreconnect = function () {
 
 
 /***/ }),
-/* 16 */
+/* 17 */
 /***/ (function(module, exports) {
 
 
@@ -2797,7 +2806,7 @@ function on (obj, ev, fn) {
 
 
 /***/ }),
-/* 17 */
+/* 18 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
@@ -2807,8 +2816,8 @@ function on (obj, ev, fn) {
 
 var parser = __webpack_require__(8);
 var Emitter = __webpack_require__(3);
-var toArray = __webpack_require__(50);
-var on = __webpack_require__(16);
+var toArray = __webpack_require__(64);
+var on = __webpack_require__(17);
 var bind = __webpack_require__(9);
 var debug = __webpack_require__(1)('socket.io-client:socket');
 var hasBin = __webpack_require__(12);
@@ -3222,7 +3231,7 @@ Socket.prototype.compress = function (compress) {
 
 
 /***/ }),
-/* 18 */
+/* 19 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {
@@ -3242,7 +3251,7 @@ function isBuf(obj) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 19 */
+/* 20 */
 /***/ (function(module, exports) {
 
 module.exports = function(module) {
@@ -3270,7 +3279,7 @@ module.exports = function(module) {
 
 
 /***/ }),
-/* 20 */
+/* 21 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3345,16 +3354,365 @@ module.exports = yeast;
 
 
 /***/ }),
-/* 21 */
+/* 22 */,
+/* 23 */,
+/* 24 */,
+/* 25 */,
+/* 26 */,
+/* 27 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
-!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__, exports, __webpack_require__(51)], __WEBPACK_AMD_DEFINE_RESULT__ = function (require, exports, SyncNode_1) {
+/*
+ * smoothscroll polyfill - v0.3.4
+ * https://iamdustan.github.io/smoothscroll
+ * 2016 (c) Dustan Kasten, Jeremias Menichelli - MIT License
+ */
+
+(function(w, d, undefined) {
+  'use strict';
+
+  /*
+   * aliases
+   * w: window global object
+   * d: document
+   * undefined: undefined
+   */
+
+  // polyfill
+  function polyfill() {
+    // return when scrollBehavior interface is supported
+    if ('scrollBehavior' in d.documentElement.style) {
+      return;
+    }
+
+    /*
+     * globals
+     */
+    var Element = w.HTMLElement || w.Element;
+    var SCROLL_TIME = 468;
+
+    /*
+     * object gathering original scroll methods
+     */
+    var original = {
+      scroll: w.scroll || w.scrollTo,
+      scrollBy: w.scrollBy,
+      elScroll: Element.prototype.scroll || scrollElement,
+      scrollIntoView: Element.prototype.scrollIntoView
+    };
+
+    /*
+     * define timing method
+     */
+    var now = w.performance && w.performance.now
+      ? w.performance.now.bind(w.performance) : Date.now;
+
+    /**
+     * changes scroll position inside an element
+     * @method scrollElement
+     * @param {Number} x
+     * @param {Number} y
+     */
+    function scrollElement(x, y) {
+      this.scrollLeft = x;
+      this.scrollTop = y;
+    }
+
+    /**
+     * returns result of applying ease math function to a number
+     * @method ease
+     * @param {Number} k
+     * @returns {Number}
+     */
+    function ease(k) {
+      return 0.5 * (1 - Math.cos(Math.PI * k));
+    }
+
+    /**
+     * indicates if a smooth behavior should be applied
+     * @method shouldBailOut
+     * @param {Number|Object} x
+     * @returns {Boolean}
+     */
+    function shouldBailOut(x) {
+      if (typeof x !== 'object'
+            || x === null
+            || x.behavior === undefined
+            || x.behavior === 'auto'
+            || x.behavior === 'instant') {
+        // first arg not an object/null
+        // or behavior is auto, instant or undefined
+        return true;
+      }
+
+      if (typeof x === 'object'
+            && x.behavior === 'smooth') {
+        // first argument is an object and behavior is smooth
+        return false;
+      }
+
+      // throw error when behavior is not supported
+      throw new TypeError('behavior not valid');
+    }
+
+    /**
+     * finds scrollable parent of an element
+     * @method findScrollableParent
+     * @param {Node} el
+     * @returns {Node} el
+     */
+    function findScrollableParent(el) {
+      var isBody;
+      var hasScrollableSpace;
+      var hasVisibleOverflow;
+
+      do {
+        el = el.parentNode;
+
+        // set condition variables
+        isBody = el === d.body;
+        hasScrollableSpace =
+          el.clientHeight < el.scrollHeight ||
+          el.clientWidth < el.scrollWidth;
+        hasVisibleOverflow =
+          w.getComputedStyle(el, null).overflow === 'visible';
+      } while (!isBody && !(hasScrollableSpace && !hasVisibleOverflow));
+
+      isBody = hasScrollableSpace = hasVisibleOverflow = null;
+
+      return el;
+    }
+
+    /**
+     * self invoked function that, given a context, steps through scrolling
+     * @method step
+     * @param {Object} context
+     */
+    function step(context) {
+      // call method again on next available frame
+      context.frame = w.requestAnimationFrame(step.bind(w, context));
+
+      var time = now();
+      var value;
+      var currentX;
+      var currentY;
+      var elapsed = (time - context.startTime) / SCROLL_TIME;
+
+      // avoid elapsed times higher than one
+      elapsed = elapsed > 1 ? 1 : elapsed;
+
+      // apply easing to elapsed time
+      value = ease(elapsed);
+
+      currentX = context.startX + (context.x - context.startX) * value;
+      currentY = context.startY + (context.y - context.startY) * value;
+
+      context.method.call(context.scrollable, currentX, currentY);
+
+      // return when end points have been reached
+      if (currentX === context.x && currentY === context.y) {
+        w.cancelAnimationFrame(context.frame);
+        return;
+      }
+    }
+
+    /**
+     * scrolls window with a smooth behavior
+     * @method smoothScroll
+     * @param {Object|Node} el
+     * @param {Number} x
+     * @param {Number} y
+     */
+    function smoothScroll(el, x, y) {
+      var scrollable;
+      var startX;
+      var startY;
+      var method;
+      var startTime = now();
+      var frame;
+
+      // define scroll context
+      if (el === d.body) {
+        scrollable = w;
+        startX = w.scrollX || w.pageXOffset;
+        startY = w.scrollY || w.pageYOffset;
+        method = original.scroll;
+      } else {
+        scrollable = el;
+        startX = el.scrollLeft;
+        startY = el.scrollTop;
+        method = scrollElement;
+      }
+
+      // cancel frame when a scroll event's happening
+      if (frame) {
+        w.cancelAnimationFrame(frame);
+      }
+
+      // scroll looping over a frame
+      step({
+        scrollable: scrollable,
+        method: method,
+        startTime: startTime,
+        startX: startX,
+        startY: startY,
+        x: x,
+        y: y,
+        frame: frame
+      });
+    }
+
+    /*
+     * ORIGINAL METHODS OVERRIDES
+     */
+
+    // w.scroll and w.scrollTo
+    w.scroll = w.scrollTo = function() {
+      // avoid smooth behavior if not required
+      if (shouldBailOut(arguments[0])) {
+        original.scroll.call(
+          w,
+          arguments[0].left || arguments[0],
+          arguments[0].top || arguments[1]
+        );
+        return;
+      }
+
+      // LET THE SMOOTHNESS BEGIN!
+      smoothScroll.call(
+        w,
+        d.body,
+        ~~arguments[0].left,
+        ~~arguments[0].top
+      );
+    };
+
+    // w.scrollBy
+    w.scrollBy = function() {
+      // avoid smooth behavior if not required
+      if (shouldBailOut(arguments[0])) {
+        original.scrollBy.call(
+          w,
+          arguments[0].left || arguments[0],
+          arguments[0].top || arguments[1]
+        );
+        return;
+      }
+
+      // LET THE SMOOTHNESS BEGIN!
+      smoothScroll.call(
+        w,
+        d.body,
+        ~~arguments[0].left + (w.scrollX || w.pageXOffset),
+        ~~arguments[0].top + (w.scrollY || w.pageYOffset)
+      );
+    };
+
+    // Element.prototype.scroll and Element.prototype.scrollTo
+    Element.prototype.scroll = Element.prototype.scrollTo = function() {
+      // avoid smooth behavior if not required
+      if (shouldBailOut(arguments[0])) {
+        original.elScroll.call(
+            this,
+            arguments[0].left || arguments[0],
+            arguments[0].top || arguments[1]
+        );
+        return;
+      }
+
+      // LET THE SMOOTHNESS BEGIN!
+      smoothScroll.call(
+          this,
+          this,
+          arguments[0].left,
+          arguments[0].top
+      );
+    };
+
+    // Element.prototype.scrollBy
+    Element.prototype.scrollBy = function() {
+      var arg0 = arguments[0];
+
+      if (typeof arg0 === 'object') {
+        this.scroll({
+          left: arg0.left + this.scrollLeft,
+          top: arg0.top + this.scrollTop,
+          behavior: arg0.behavior
+        });
+      } else {
+        this.scroll(
+          this.scrollLeft + arg0,
+          this.scrollTop + arguments[1]
+        );
+      }
+    };
+
+    // Element.prototype.scrollIntoView
+    Element.prototype.scrollIntoView = function() {
+      // avoid smooth behavior if not required
+      if (shouldBailOut(arguments[0])) {
+        original.scrollIntoView.call(this, arguments[0] || true);
+        return;
+      }
+
+      // LET THE SMOOTHNESS BEGIN!
+      var scrollableParent = findScrollableParent(this);
+      var parentRects = scrollableParent.getBoundingClientRect();
+      var clientRects = this.getBoundingClientRect();
+
+      if (scrollableParent !== d.body) {
+        // reveal element inside parent
+        smoothScroll.call(
+          this,
+          scrollableParent,
+          scrollableParent.scrollLeft + clientRects.left - parentRects.left,
+          scrollableParent.scrollTop + clientRects.top - parentRects.top
+        );
+        // reveal parent in viewport
+        w.scrollBy({
+          left: parentRects.left,
+          top: parentRects.top,
+          behavior: 'smooth'
+        });
+      } else {
+        // reveal element in viewport
+        w.scrollBy({
+          left: clientRects.left,
+          top: clientRects.top,
+          behavior: 'smooth'
+        });
+      }
+    };
+  }
+
+  if (true) {
+    // commonjs
+    module.exports = { polyfill: polyfill };
+  } else {
+    // global
+    polyfill();
+  }
+})(window, document);
+
+
+/***/ }),
+/* 28 */,
+/* 29 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__, exports, __webpack_require__(65)], __WEBPACK_AMD_DEFINE_RESULT__ = function (require, exports, SyncNode_1) {
     "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
     /*
     export interface SyncViewOptions {
         tag?: keyof ElementTagNameMap;
@@ -3742,11 +4100,12 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;var __extends = 
 
 
 /***/ }),
-/* 22 */
+/* 30 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__, exports, __webpack_require__(52)], __WEBPACK_AMD_DEFINE_RESULT__ = function (require, exports, scanner_1) {
+var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__, exports, __webpack_require__(66)], __WEBPACK_AMD_DEFINE_RESULT__ = function (require, exports, scanner_1) {
     "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
     // Share a single scanner across all calls to parse a source file.  This helps speed things
     // up by avoiding the cost of creating/compiling scanners over and over again.
     var scanner = scanner_1.createScanner();
@@ -3951,7 +4310,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_
 
 
 /***/ }),
-/* 23 */
+/* 31 */
 /***/ (function(module, exports) {
 
 module.exports = after
@@ -3985,7 +4344,7 @@ function noop() {}
 
 
 /***/ }),
-/* 24 */
+/* 32 */
 /***/ (function(module, exports) {
 
 /**
@@ -4020,7 +4379,7 @@ module.exports = function(arraybuffer, start, end) {
 
 
 /***/ }),
-/* 25 */
+/* 33 */
 /***/ (function(module, exports) {
 
 
@@ -4111,7 +4470,7 @@ Backoff.prototype.setJitter = function(jitter){
 
 
 /***/ }),
-/* 26 */
+/* 34 */
 /***/ (function(module, exports) {
 
 /*
@@ -4184,7 +4543,8 @@ Backoff.prototype.setJitter = function(jitter){
 
 
 /***/ }),
-/* 27 */
+/* 35 */,
+/* 36 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {/**
@@ -4287,7 +4647,11 @@ module.exports = (function() {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 28 */
+/* 37 */,
+/* 38 */,
+/* 39 */,
+/* 40 */,
+/* 41 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
@@ -4303,7 +4667,7 @@ exports.coerce = coerce;
 exports.disable = disable;
 exports.enable = enable;
 exports.enabled = enabled;
-exports.humanize = __webpack_require__(39);
+exports.humanize = __webpack_require__(52);
 
 /**
  * The currently active debug mode names, and names to skip.
@@ -4493,19 +4857,19 @@ function coerce(val) {
 
 
 /***/ }),
-/* 29 */
+/* 42 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
-module.exports = __webpack_require__(30);
+module.exports = __webpack_require__(43);
 
 
 /***/ }),
-/* 30 */
+/* 43 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
-module.exports = __webpack_require__(31);
+module.exports = __webpack_require__(44);
 
 /**
  * Exports parser
@@ -4517,7 +4881,7 @@ module.exports.parser = __webpack_require__(2);
 
 
 /***/ }),
-/* 31 */
+/* 44 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {/**
@@ -4529,8 +4893,8 @@ var Emitter = __webpack_require__(3);
 var debug = __webpack_require__(1)('engine.io-client:socket');
 var index = __webpack_require__(13);
 var parser = __webpack_require__(2);
-var parseuri = __webpack_require__(14);
-var parsejson = __webpack_require__(40);
+var parseuri = __webpack_require__(15);
+var parsejson = __webpack_require__(53);
 var parseqs = __webpack_require__(7);
 
 /**
@@ -5262,7 +5626,7 @@ Socket.prototype.filterUpgrades = function (upgrades) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 32 */
+/* 45 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {
@@ -5500,7 +5864,7 @@ JSONPPolling.prototype.doWrite = function (data, fn) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 33 */
+/* 46 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {/**
@@ -5931,7 +6295,7 @@ function unloadHandler () {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 34 */
+/* 47 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {/**
@@ -5942,13 +6306,13 @@ var Transport = __webpack_require__(5);
 var parser = __webpack_require__(2);
 var parseqs = __webpack_require__(7);
 var inherit = __webpack_require__(4);
-var yeast = __webpack_require__(20);
+var yeast = __webpack_require__(21);
 var debug = __webpack_require__(1)('engine.io-client:websocket');
 var BrowserWebSocket = global.WebSocket || global.MozWebSocket;
 var NodeWebSocket;
 if (typeof window === 'undefined') {
   try {
-    NodeWebSocket = __webpack_require__(55);
+    NodeWebSocket = __webpack_require__(69);
   } catch (e) { }
 }
 
@@ -6223,7 +6587,7 @@ WS.prototype.check = function () {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 35 */
+/* 48 */
 /***/ (function(module, exports) {
 
 
@@ -6248,16 +6612,7 @@ module.exports = Object.keys || function keys (obj){
 
 
 /***/ }),
-/* 36 */
-/***/ (function(module, exports) {
-
-module.exports = Array.isArray || function (arr) {
-  return Object.prototype.toString.call(arr) == '[object Array]';
-};
-
-
-/***/ }),
-/* 37 */
+/* 49 */
 /***/ (function(module, exports) {
 
 
@@ -6280,14 +6635,15 @@ try {
 
 
 /***/ }),
-/* 38 */
+/* 50 */,
+/* 51 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(module, global) {var __WEBPACK_AMD_DEFINE_RESULT__;/*! JSON v3.3.2 | http://bestiejs.github.io/json3 | Copyright 2012-2014, Kit Cambridge | http://kit.mit-license.org */
 ;(function () {
   // Detect the `define` function exposed by asynchronous module loaders. The
   // strict `define` check is necessary for compatibility with `r.js`.
-  var isLoader = "function" === "function" && __webpack_require__(53);
+  var isLoader = "function" === "function" && __webpack_require__(67);
 
   // A set of types used to distinguish objects from primitives.
   var objectTypes = {
@@ -7187,10 +7543,10 @@ try {
   }
 }).call(this);
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(19)(module), __webpack_require__(0)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(20)(module), __webpack_require__(0)))
 
 /***/ }),
-/* 39 */
+/* 52 */
 /***/ (function(module, exports) {
 
 /**
@@ -7345,7 +7701,7 @@ function plural(ms, n, name) {
 
 
 /***/ }),
-/* 40 */
+/* 53 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {/**
@@ -7383,7 +7739,7 @@ module.exports = function parsejson(data) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 41 */
+/* 54 */
 /***/ (function(module, exports) {
 
 // shim for using process in browser
@@ -7569,7 +7925,7 @@ process.umask = function() { return 0; };
 
 
 /***/ }),
-/* 42 */
+/* 55 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
@@ -7577,9 +7933,9 @@ process.umask = function() { return 0; };
  * Module dependencies.
  */
 
-var url = __webpack_require__(43);
+var url = __webpack_require__(56);
 var parser = __webpack_require__(8);
-var Manager = __webpack_require__(15);
+var Manager = __webpack_require__(16);
 var debug = __webpack_require__(1)('socket.io-client');
 
 /**
@@ -7679,12 +8035,12 @@ exports.connect = lookup;
  * @api public
  */
 
-exports.Manager = __webpack_require__(15);
-exports.Socket = __webpack_require__(17);
+exports.Manager = __webpack_require__(16);
+exports.Socket = __webpack_require__(18);
 
 
 /***/ }),
-/* 43 */
+/* 56 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {
@@ -7692,7 +8048,7 @@ exports.Socket = __webpack_require__(17);
  * Module dependencies.
  */
 
-var parseuri = __webpack_require__(14);
+var parseuri = __webpack_require__(15);
 var debug = __webpack_require__(1)('socket.io-client:url');
 
 /**
@@ -7766,7 +8122,7 @@ function url (uri, loc) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 44 */
+/* 57 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {/*global Blob,File*/
@@ -7775,8 +8131,8 @@ function url (uri, loc) {
  * Module requirements
  */
 
-var isArray = __webpack_require__(48);
-var isBuf = __webpack_require__(18);
+var isArray = __webpack_require__(14);
+var isBuf = __webpack_require__(19);
 
 /**
  * Replaces every Buffer | ArrayBuffer in packet with a numbered placeholder.
@@ -7914,7 +8270,7 @@ exports.removeBlobs = function(data, callback) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 45 */
+/* 58 */
 /***/ (function(module, exports) {
 
 
@@ -8084,7 +8440,7 @@ Emitter.prototype.hasListeners = function(event){
 
 
 /***/ }),
-/* 46 */
+/* 59 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
@@ -8094,7 +8450,7 @@ Emitter.prototype.hasListeners = function(event){
  * Expose `debug()` as the module.
  */
 
-exports = module.exports = __webpack_require__(47);
+exports = module.exports = __webpack_require__(60);
 exports.log = log;
 exports.formatArgs = formatArgs;
 exports.save = save;
@@ -8258,7 +8614,7 @@ function localstorage(){
 
 
 /***/ }),
-/* 47 */
+/* 60 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
@@ -8274,7 +8630,7 @@ exports.coerce = coerce;
 exports.disable = disable;
 exports.enable = enable;
 exports.enabled = enabled;
-exports.humanize = __webpack_require__(49);
+exports.humanize = __webpack_require__(61);
 
 /**
  * The currently active debug mode names, and names to skip.
@@ -8461,16 +8817,7 @@ function coerce(val) {
 
 
 /***/ }),
-/* 48 */
-/***/ (function(module, exports) {
-
-module.exports = Array.isArray || function (arr) {
-  return Object.prototype.toString.call(arr) == '[object Array]';
-};
-
-
-/***/ }),
-/* 49 */
+/* 61 */
 /***/ (function(module, exports) {
 
 /**
@@ -8601,7 +8948,9 @@ function plural(ms, n, name) {
 
 
 /***/ }),
-/* 50 */
+/* 62 */,
+/* 63 */,
+/* 64 */
 /***/ (function(module, exports) {
 
 module.exports = toArray
@@ -8620,16 +8969,22 @@ function toArray(list, index) {
 
 
 /***/ }),
-/* 51 */
+/* 65 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
-!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__, exports, __webpack_require__(42)], __WEBPACK_AMD_DEFINE_RESULT__ = function (require, exports, io) {
+var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__, exports, __webpack_require__(55)], __WEBPACK_AMD_DEFINE_RESULT__ = function (require, exports, io) {
     "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
     var SyncNodeEventEmitter = (function () {
         function SyncNodeEventEmitter() {
             SyncNode.addNE(this, '__eventHandlers', {});
@@ -9039,11 +9394,12 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;var __extends = 
 
 
 /***/ }),
-/* 52 */
+/* 66 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__, exports], __WEBPACK_AMD_DEFINE_RESULT__ = function (require, exports) {
     "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
     function createScanner(text, start, length) {
         if (text === void 0) { text = ''; }
         if (start === void 0) { start = 0; }
@@ -9552,7 +9908,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_
 
 
 /***/ }),
-/* 53 */
+/* 67 */
 /***/ (function(module, exports) {
 
 /* WEBPACK VAR INJECTION */(function(__webpack_amd_options__) {/* globals __webpack_amd_options__ */
@@ -9561,7 +9917,7 @@ module.exports = __webpack_amd_options__;
 /* WEBPACK VAR INJECTION */}.call(exports, {}))
 
 /***/ }),
-/* 54 */
+/* 68 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(module, global) {var __WEBPACK_AMD_DEFINE_RESULT__;/*! https://mths.be/wtf8 v1.0.0 by @mathias */
@@ -9798,25 +10154,39 @@ module.exports = __webpack_amd_options__;
 
 }(this));
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(19)(module), __webpack_require__(0)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(20)(module), __webpack_require__(0)))
 
 /***/ }),
-/* 55 */
+/* 69 */
 /***/ (function(module, exports) {
 
 /* (ignored) */
 
 /***/ }),
-/* 56 */
+/* 70 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
-!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__, exports, __webpack_require__(21), __webpack_require__(22), __webpack_require__(57)], __WEBPACK_AMD_DEFINE_RESULT__ = function (require, exports, __SyncNode_SyncView_1, parser_1, smoothscroll) {
+var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__, exports, __webpack_require__(29), __webpack_require__(30), __webpack_require__(27)], __WEBPACK_AMD_DEFINE_RESULT__ = function (require, exports, __SyncNode_SyncView_1, parser_1, smoothscroll) {
     "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    /*
+    import './lib/codemirror/codemirror.css'
+    import './lib/codemirror/codemirror.js'
+    import './lib/codemirror/css.js'
+    import './lib/codemirror/javascript.js'
+    import './lib/codemirror/svml.js'
+    import './lib/codemirror/vim.js'
+    */
     smoothscroll.polyfill();
     var MainView = (function (_super) {
         __extends(MainView, _super);
@@ -9917,26 +10287,16 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;var __extends = 
         function StoryAndPlayer(options) {
             if (options === void 0) { options = {}; }
             var _this = _super.call(this, options) || this;
-            _this.story = _this.add('textarea', { "innerHTML": "", "className": " textarea_story_style row-fill" });
+            _this.cmHolder = _this.add('div', { "innerHTML": "", "className": " div_cmHolder_style row-fill" });
             _this.player = _this.addView(new Player(), ' Player_player_style');
             _this.el.className += ' row';
             _this.el.className += ' StoryAndPlayer_style';
-            _this.story.addEventListener('keydown', function (e) {
-                // allow tab key
-                if (e.keyCode === 9) {
-                    var t = _this.story;
-                    var start = t.selectionStart;
-                    var end = t.selectionEnd;
-                    var value = t.value;
-                    t.value = value.substring(0, start) + "  " + value.substring(end);
-                    t.selectionStart = t.selectionEnd = start + 2;
+            _this.cmHolder.addEventListener('keydown', function (e) {
+                if (e.ctrlKey && e.keyCode === 83) {
                     e.preventDefault();
+                    _this.save();
+                    return false;
                 }
-            });
-            _this.story.addEventListener('input', function () {
-                if (_this.saveHandle)
-                    clearTimeout(_this.saveHandle);
-                _this.saveHandle = setTimeout(_this.save.bind(_this), 1000);
             });
             return _this;
         }
@@ -9950,8 +10310,16 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;var __extends = 
             }
         };
         StoryAndPlayer.prototype.save = function () {
-            this.data.set('text', this.story.value);
+            this.data.set('text', this.cm.getValue());
             this.saveHandle = 0;
+        };
+        StoryAndPlayer.prototype.init = function () {
+            this.cm = CodeMirror(this.cmHolder, {
+                mode: "story",
+                keyMap: 'default',
+                //lineNumbers: true,
+                theme: 'cobalt'
+            });
         };
         StoryAndPlayer.prototype.render = function () {
             if (!this.data) {
@@ -9959,14 +10327,17 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;var __extends = 
             }
             else {
                 this.el.style.display = 'flex';
-                this.story.value = this.data.text;
+                var cursor = this.cm.getCursor();
+                this.cm.setValue(this.data.text);
+                this.cm.setCursor(cursor);
+                //this.story.value = this.data.text;
                 this.parse();
             }
         };
         return StoryAndPlayer;
     }(__SyncNode_SyncView_1.SyncView));
     exports.StoryAndPlayer = StoryAndPlayer;
-    __SyncNode_SyncView_1.SyncView.addGlobalStyle('.textarea_story_style', "\n            height: 100%;\n            white-space: nowrap;\n            overflow: auto;\n        ");
+    __SyncNode_SyncView_1.SyncView.addGlobalStyle('.div_cmHolder_style', " position: relative; ");
     __SyncNode_SyncView_1.SyncView.addGlobalStyle('.Player_player_style', " \n            padding-top: 1em;\n            padding-left: 1em;\n            width: 300px;\n        ");
     var StoryEditor = (function (_super) {
         __extends(StoryEditor, _super);
@@ -10156,343 +10527,6 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;var __extends = 
     new __SyncNode_SyncView_1.SyncReloader().start();
 }.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__),
 				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-
-
-/***/ }),
-/* 57 */
-/***/ (function(module, exports, __webpack_require__) {
-
-/*
- * smoothscroll polyfill - v0.3.4
- * https://iamdustan.github.io/smoothscroll
- * 2016 (c) Dustan Kasten, Jeremias Menichelli - MIT License
- */
-
-(function(w, d, undefined) {
-  'use strict';
-
-  /*
-   * aliases
-   * w: window global object
-   * d: document
-   * undefined: undefined
-   */
-
-  // polyfill
-  function polyfill() {
-    // return when scrollBehavior interface is supported
-    if ('scrollBehavior' in d.documentElement.style) {
-      return;
-    }
-
-    /*
-     * globals
-     */
-    var Element = w.HTMLElement || w.Element;
-    var SCROLL_TIME = 468;
-
-    /*
-     * object gathering original scroll methods
-     */
-    var original = {
-      scroll: w.scroll || w.scrollTo,
-      scrollBy: w.scrollBy,
-      elScroll: Element.prototype.scroll || scrollElement,
-      scrollIntoView: Element.prototype.scrollIntoView
-    };
-
-    /*
-     * define timing method
-     */
-    var now = w.performance && w.performance.now
-      ? w.performance.now.bind(w.performance) : Date.now;
-
-    /**
-     * changes scroll position inside an element
-     * @method scrollElement
-     * @param {Number} x
-     * @param {Number} y
-     */
-    function scrollElement(x, y) {
-      this.scrollLeft = x;
-      this.scrollTop = y;
-    }
-
-    /**
-     * returns result of applying ease math function to a number
-     * @method ease
-     * @param {Number} k
-     * @returns {Number}
-     */
-    function ease(k) {
-      return 0.5 * (1 - Math.cos(Math.PI * k));
-    }
-
-    /**
-     * indicates if a smooth behavior should be applied
-     * @method shouldBailOut
-     * @param {Number|Object} x
-     * @returns {Boolean}
-     */
-    function shouldBailOut(x) {
-      if (typeof x !== 'object'
-            || x === null
-            || x.behavior === undefined
-            || x.behavior === 'auto'
-            || x.behavior === 'instant') {
-        // first arg not an object/null
-        // or behavior is auto, instant or undefined
-        return true;
-      }
-
-      if (typeof x === 'object'
-            && x.behavior === 'smooth') {
-        // first argument is an object and behavior is smooth
-        return false;
-      }
-
-      // throw error when behavior is not supported
-      throw new TypeError('behavior not valid');
-    }
-
-    /**
-     * finds scrollable parent of an element
-     * @method findScrollableParent
-     * @param {Node} el
-     * @returns {Node} el
-     */
-    function findScrollableParent(el) {
-      var isBody;
-      var hasScrollableSpace;
-      var hasVisibleOverflow;
-
-      do {
-        el = el.parentNode;
-
-        // set condition variables
-        isBody = el === d.body;
-        hasScrollableSpace =
-          el.clientHeight < el.scrollHeight ||
-          el.clientWidth < el.scrollWidth;
-        hasVisibleOverflow =
-          w.getComputedStyle(el, null).overflow === 'visible';
-      } while (!isBody && !(hasScrollableSpace && !hasVisibleOverflow));
-
-      isBody = hasScrollableSpace = hasVisibleOverflow = null;
-
-      return el;
-    }
-
-    /**
-     * self invoked function that, given a context, steps through scrolling
-     * @method step
-     * @param {Object} context
-     */
-    function step(context) {
-      // call method again on next available frame
-      context.frame = w.requestAnimationFrame(step.bind(w, context));
-
-      var time = now();
-      var value;
-      var currentX;
-      var currentY;
-      var elapsed = (time - context.startTime) / SCROLL_TIME;
-
-      // avoid elapsed times higher than one
-      elapsed = elapsed > 1 ? 1 : elapsed;
-
-      // apply easing to elapsed time
-      value = ease(elapsed);
-
-      currentX = context.startX + (context.x - context.startX) * value;
-      currentY = context.startY + (context.y - context.startY) * value;
-
-      context.method.call(context.scrollable, currentX, currentY);
-
-      // return when end points have been reached
-      if (currentX === context.x && currentY === context.y) {
-        w.cancelAnimationFrame(context.frame);
-        return;
-      }
-    }
-
-    /**
-     * scrolls window with a smooth behavior
-     * @method smoothScroll
-     * @param {Object|Node} el
-     * @param {Number} x
-     * @param {Number} y
-     */
-    function smoothScroll(el, x, y) {
-      var scrollable;
-      var startX;
-      var startY;
-      var method;
-      var startTime = now();
-      var frame;
-
-      // define scroll context
-      if (el === d.body) {
-        scrollable = w;
-        startX = w.scrollX || w.pageXOffset;
-        startY = w.scrollY || w.pageYOffset;
-        method = original.scroll;
-      } else {
-        scrollable = el;
-        startX = el.scrollLeft;
-        startY = el.scrollTop;
-        method = scrollElement;
-      }
-
-      // cancel frame when a scroll event's happening
-      if (frame) {
-        w.cancelAnimationFrame(frame);
-      }
-
-      // scroll looping over a frame
-      step({
-        scrollable: scrollable,
-        method: method,
-        startTime: startTime,
-        startX: startX,
-        startY: startY,
-        x: x,
-        y: y,
-        frame: frame
-      });
-    }
-
-    /*
-     * ORIGINAL METHODS OVERRIDES
-     */
-
-    // w.scroll and w.scrollTo
-    w.scroll = w.scrollTo = function() {
-      // avoid smooth behavior if not required
-      if (shouldBailOut(arguments[0])) {
-        original.scroll.call(
-          w,
-          arguments[0].left || arguments[0],
-          arguments[0].top || arguments[1]
-        );
-        return;
-      }
-
-      // LET THE SMOOTHNESS BEGIN!
-      smoothScroll.call(
-        w,
-        d.body,
-        ~~arguments[0].left,
-        ~~arguments[0].top
-      );
-    };
-
-    // w.scrollBy
-    w.scrollBy = function() {
-      // avoid smooth behavior if not required
-      if (shouldBailOut(arguments[0])) {
-        original.scrollBy.call(
-          w,
-          arguments[0].left || arguments[0],
-          arguments[0].top || arguments[1]
-        );
-        return;
-      }
-
-      // LET THE SMOOTHNESS BEGIN!
-      smoothScroll.call(
-        w,
-        d.body,
-        ~~arguments[0].left + (w.scrollX || w.pageXOffset),
-        ~~arguments[0].top + (w.scrollY || w.pageYOffset)
-      );
-    };
-
-    // Element.prototype.scroll and Element.prototype.scrollTo
-    Element.prototype.scroll = Element.prototype.scrollTo = function() {
-      // avoid smooth behavior if not required
-      if (shouldBailOut(arguments[0])) {
-        original.elScroll.call(
-            this,
-            arguments[0].left || arguments[0],
-            arguments[0].top || arguments[1]
-        );
-        return;
-      }
-
-      // LET THE SMOOTHNESS BEGIN!
-      smoothScroll.call(
-          this,
-          this,
-          arguments[0].left,
-          arguments[0].top
-      );
-    };
-
-    // Element.prototype.scrollBy
-    Element.prototype.scrollBy = function() {
-      var arg0 = arguments[0];
-
-      if (typeof arg0 === 'object') {
-        this.scroll({
-          left: arg0.left + this.scrollLeft,
-          top: arg0.top + this.scrollTop,
-          behavior: arg0.behavior
-        });
-      } else {
-        this.scroll(
-          this.scrollLeft + arg0,
-          this.scrollTop + arguments[1]
-        );
-      }
-    };
-
-    // Element.prototype.scrollIntoView
-    Element.prototype.scrollIntoView = function() {
-      // avoid smooth behavior if not required
-      if (shouldBailOut(arguments[0])) {
-        original.scrollIntoView.call(this, arguments[0] || true);
-        return;
-      }
-
-      // LET THE SMOOTHNESS BEGIN!
-      var scrollableParent = findScrollableParent(this);
-      var parentRects = scrollableParent.getBoundingClientRect();
-      var clientRects = this.getBoundingClientRect();
-
-      if (scrollableParent !== d.body) {
-        // reveal element inside parent
-        smoothScroll.call(
-          this,
-          scrollableParent,
-          scrollableParent.scrollLeft + clientRects.left - parentRects.left,
-          scrollableParent.scrollTop + clientRects.top - parentRects.top
-        );
-        // reveal parent in viewport
-        w.scrollBy({
-          left: parentRects.left,
-          top: parentRects.top,
-          behavior: 'smooth'
-        });
-      } else {
-        // reveal element in viewport
-        w.scrollBy({
-          left: clientRects.left,
-          top: clientRects.top,
-          behavior: 'smooth'
-        });
-      }
-    };
-  }
-
-  if (true) {
-    // commonjs
-    module.exports = { polyfill: polyfill };
-  } else {
-    // global
-    polyfill();
-  }
-})(window, document);
 
 
 /***/ })

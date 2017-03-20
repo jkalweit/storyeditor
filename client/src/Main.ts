@@ -1,11 +1,22 @@
-import { SyncNode, SyncNodeSocket, SyncData } from "c:\\websites\\svml\\test-app\\app\\client\\src\\SyncNode\\SyncNode"
+import { SyncNode, SyncNodeSocket, SyncData } from ".\\SyncNode\\SyncNode"
 import { SyncView, SyncApp, SyncList, SyncUtils, SyncReloader } from ".\\SyncNode\\SyncView"
 
 
 import { parse, ProgNode, ChapterNode, PromptNode, PromptOptionNode, NextNode } from './parser';
 import * as smoothscroll from './lib/smoothscroll'
+/*
+import './lib/codemirror/codemirror.css'
+import './lib/codemirror/codemirror.js'
+import './lib/codemirror/css.js'
+import './lib/codemirror/javascript.js'
+import './lib/codemirror/svml.js'
+import './lib/codemirror/vim.js'
+*/
+
 
 smoothscroll.polyfill();
+
+declare var CodeMirror: any;
 
 export interface MainData extends SyncData {
     stories: {[key: string]: Story};
@@ -104,29 +115,23 @@ export class StoryEditorControls extends SyncView<SyncData> {
 }
 
 export class StoryAndPlayer extends SyncView<Story> {
- saveHandle: number; 
- 	story = this.add('textarea', {"innerHTML":"","className":" textarea_story_style row-fill"});
+ 
+        saveHandle: number; 
+        cm: any;
+    
+ 	cmHolder = this.add('div', {"innerHTML":"","className":" div_cmHolder_style row-fill"});
 	player = this.addView(new Player(), ' Player_player_style');
 	constructor(options: any = {}) {
 		super(options);
 		this.el.className += ' row';
 		this.el.className += ' StoryAndPlayer_style';
-		this.story.addEventListener('keydown', (e) => { 
-            // allow tab key
-            if(e.keyCode === 9) {
-                let t = this.story;
-                var start = t.selectionStart;
-                var end = t.selectionEnd;
-                var value = t.value;
-                t.value = value.substring(0, start) + "  " + value.substring(end);
-                t.selectionStart = t.selectionEnd = start + 2;
-                e.preventDefault();
-            }
+		this.cmHolder.addEventListener('keydown', (e) => { 
+			if(e.ctrlKey && e.keyCode === 83) {
+				e.preventDefault();
+				this.save();
+				return false;
+			}
          });
-		this.story.addEventListener('input', () => { 
-            if(this.saveHandle) clearTimeout(this.saveHandle);
-            this.saveHandle = setTimeout(this.save.bind(this), 1000);
-          });
 	}
 	parse() {
         try {
@@ -137,25 +142,32 @@ export class StoryAndPlayer extends SyncView<Story> {
         }
     }
 	save() {
-        this.data.set('text', this.story.value); 
+        this.data.set('text', this.cm.getValue()); 
         this.saveHandle = 0;
+    }
+	init() {
+        this.cm = CodeMirror(this.cmHolder, {
+			mode: "story",
+			keyMap: 'default', //localSettings.keyMap || 'default',
+			//lineNumbers: true,
+            theme: 'cobalt'
+		});
     }
 	render() {
         if(!this.data) {
             this.el.style.display = 'none';
         } else {
             this.el.style.display = 'flex';
-            this.story.value = this.data.text;
+            let cursor = this.cm.getCursor();
+            this.cm.setValue(this.data.text);
+            this.cm.setCursor(cursor);
+            //this.story.value = this.data.text;
             this.parse();
         }
     }
 }
 
-SyncView.addGlobalStyle('.textarea_story_style', `
-            height: 100%;
-            white-space: nowrap;
-            overflow: auto;
-        `);
+SyncView.addGlobalStyle('.div_cmHolder_style', ` position: relative; `);
 SyncView.addGlobalStyle('.Player_player_style', ` 
             padding-top: 1em;
             padding-left: 1em;
