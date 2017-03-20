@@ -160,7 +160,6 @@ SyncView.addGlobalStyle('.Player_player_style', `
             padding-top: 1em;
             padding-left: 1em;
             width: 300px;
-            overflow-y: scroll;
         `);
 export class StoryEditor extends SyncView<SyncData> {
  saveHandle: number; 
@@ -182,12 +181,12 @@ export class Player extends SyncView<SyncData> {
         progress: PromptOptionNode[] = [];
         waitDisabled: boolean = false;
     
- 	btnRestart = this.add('button', {"innerHTML":"Restart","className":""});
-	btnWaitDisabled = this.add('button', {"innerHTML":"","className":""});
-	output = this.add('div', {"innerHTML":"","className":""});
+ 	btnRestart = this.add('button', {"innerHTML":"Restart","className":" col-nofill"});
+	btnWaitDisabled = this.add('button', {"innerHTML":"","className":" col-nofill"});
+	output = this.add('div', {"innerHTML":"","className":" div_output_style col-fill"});
 	constructor(options: any = {}) {
 		super(options);
-		this.el.className += ' ';
+		this.el.className += ' col';
 		this.btnRestart.addEventListener('click', () => {  this.play(this.prog)  });
 		this.btnWaitDisabled.addEventListener('click', () => {  
         this.waitDisabled = !this.waitDisabled;
@@ -261,6 +260,8 @@ export class Player extends SyncView<SyncData> {
             } else {
                 console.error('wait(time, next) requires at least 2 arguments.')
             }
+        } else if(name === 'restart') {
+            this.play(this.prog);
         } else {
             this.displayPromptByName(name, next.args);
         }
@@ -291,6 +292,9 @@ export class Player extends SyncView<SyncData> {
     }
 }
 
+SyncView.addGlobalStyle('.div_output_style', `
+            overflow-y: scroll;
+        `);
 export class Input extends SyncView<SyncData> {
 	input = this.add('input', {"innerHTML":"","className":" input_input_style"});
 	constructor(options: any = {}) {

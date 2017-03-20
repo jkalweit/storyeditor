@@ -119,7 +119,6 @@ StoryAndPlayer<Story>[row]
             padding-top: 1em;
             padding-left: 1em;
             width: 300px;
-            overflow-y: scroll;
         }
     parse() {
         try {
@@ -156,17 +155,20 @@ StoryEditor[col]
         .style { padding-bottom: 1em; }
     #storyAndPlayer:StoryAndPlayer[col-fill] $data
 
-Player
+Player[col]
     @{
         prog: ProgNode[];
         progress: PromptOptionNode[] = [];
         waitDisabled: boolean = false;
     }
-    #btnRestart:button 'Restart' onClick() { this.play(this.prog) }
-    #btnWaitDisabled:button '' onClick() { 
+    #btnRestart:button[col-nofill] 'Restart' onClick() { this.play(this.prog) }
+    #btnWaitDisabled:button[col-nofill] '' onClick() { 
         this.waitDisabled = !this.waitDisabled;
         this.render(); }
-    #output
+    #output[col-fill]
+        .style {
+            overflow-y: scroll;
+        }
     play(prog: ProgNode[]) {
         this.render();
         this.prog = prog;
@@ -235,6 +237,8 @@ Player
             } else {
                 console.error('wait(time, next) requires at least 2 arguments.')
             }
+        } else if(name === 'restart') {
+            this.play(this.prog);
         } else {
             this.displayPromptByName(name, next.args);
         }

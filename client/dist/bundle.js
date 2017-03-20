@@ -9967,7 +9967,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;var __extends = 
     }(__SyncNode_SyncView_1.SyncView));
     exports.StoryAndPlayer = StoryAndPlayer;
     __SyncNode_SyncView_1.SyncView.addGlobalStyle('.textarea_story_style', "\n            height: 100%;\n            white-space: nowrap;\n            overflow: auto;\n        ");
-    __SyncNode_SyncView_1.SyncView.addGlobalStyle('.Player_player_style', " \n            padding-top: 1em;\n            padding-left: 1em;\n            width: 300px;\n            overflow-y: scroll;\n        ");
+    __SyncNode_SyncView_1.SyncView.addGlobalStyle('.Player_player_style', " \n            padding-top: 1em;\n            padding-left: 1em;\n            width: 300px;\n        ");
     var StoryEditor = (function (_super) {
         __extends(StoryEditor, _super);
         function StoryEditor(options) {
@@ -9992,10 +9992,10 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;var __extends = 
             var _this = _super.call(this, options) || this;
             _this.progress = [];
             _this.waitDisabled = false;
-            _this.btnRestart = _this.add('button', { "innerHTML": "Restart", "className": "" });
-            _this.btnWaitDisabled = _this.add('button', { "innerHTML": "", "className": "" });
-            _this.output = _this.add('div', { "innerHTML": "", "className": "" });
-            _this.el.className += ' ';
+            _this.btnRestart = _this.add('button', { "innerHTML": "Restart", "className": " col-nofill" });
+            _this.btnWaitDisabled = _this.add('button', { "innerHTML": "", "className": " col-nofill" });
+            _this.output = _this.add('div', { "innerHTML": "", "className": " div_output_style col-fill" });
+            _this.el.className += ' col';
             _this.btnRestart.addEventListener('click', function () { _this.play(_this.prog); });
             _this.btnWaitDisabled.addEventListener('click', function () {
                 _this.waitDisabled = !_this.waitDisabled;
@@ -10082,6 +10082,9 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;var __extends = 
                     console.error('wait(time, next) requires at least 2 arguments.');
                 }
             }
+            else if (name === 'restart') {
+                this.play(this.prog);
+            }
             else {
                 this.displayPromptByName(name, next.args);
             }
@@ -10114,6 +10117,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;var __extends = 
         return Player;
     }(__SyncNode_SyncView_1.SyncView));
     exports.Player = Player;
+    __SyncNode_SyncView_1.SyncView.addGlobalStyle('.div_output_style', "\n            overflow-y: scroll;\n        ");
     var Input = (function (_super) {
         __extends(Input, _super);
         function Input(options) {
