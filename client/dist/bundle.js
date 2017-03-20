@@ -10195,7 +10195,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;var __extends = 
             var _this = _super.call(this, options) || this;
             _this.storyList = _this.addView(new StoryList(), '');
             _this.editor = _this.addView(new StoryEditor(), '');
-            _this.el.className += ' ';
+            _this.el.className += ' row';
             _this.el.className += ' MainView_style';
             _this.storyList.on('selected', function (story) {
                 _this.selectedStory = story;
@@ -10223,11 +10223,18 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;var __extends = 
         function StoryList(options) {
             if (options === void 0) { options = {}; }
             var _this = _super.call(this, options) || this;
-            _this.title = _this.add('h1', { "innerHTML": "Story Lines", "className": "" });
+            _this.isClosed = false;
+            _this.hideDrawer = _this.add('button', { "innerHTML": "<", "className": " button_hideDrawer_style" });
+            _this.title = _this.add('h1', { "innerHTML": "Stories", "className": "" });
             _this.addBtn = _this.add('button', { "innerHTML": "Add Story", "className": " button_addBtn_style" });
             _this.storyItemList = _this.addView(new __SyncNode_SyncView_1.SyncList({ item: StoryItem }), ' SyncList_storyItemList_style');
-            _this.el.className += ' ';
+            _this.el.className += ' row-nofill';
             _this.el.className += ' StoryList_style';
+            _this.hideDrawer.addEventListener('click', function () {
+                _this.isClosed = !_this.isClosed;
+                _this.el.style.width = _this.isClosed ? '50px' : '200px';
+                _this.hideDrawer.innerHTML = _this.isClosed ? '>' : '<';
+            });
             _this.addBtn.addEventListener('click', function () {
                 var story = {
                     title: 'New Story',
@@ -10242,6 +10249,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;var __extends = 
         return StoryList;
     }(__SyncNode_SyncView_1.SyncView));
     exports.StoryList = StoryList;
+    __SyncNode_SyncView_1.SyncView.addGlobalStyle('.button_hideDrawer_style', " position: absolute; top: 0; right: 0; ");
     __SyncNode_SyncView_1.SyncView.addGlobalStyle('.button_addBtn_style', " width: 100%; ");
     __SyncNode_SyncView_1.SyncView.addGlobalStyle('.SyncList_storyItemList_style', " width: 100%; margin-top: 1em; ");
     var StoryItem = (function (_super) {
@@ -10268,6 +10276,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;var __extends = 
             if (options === void 0) { options = {}; }
             var _this = _super.call(this, options) || this;
             _this.title = _this.addView(new Input({ twoway: true, label: 'Title', key: 'title' }), '');
+            _this.fill = _this.add('div', { "innerHTML": "", "className": " row-fill" });
             _this.delBtn = _this.add('button', { "innerHTML": "Delete Story", "className": " row-nofill" });
             _this.el.className += ' row';
             _this.addBinding('title', 'update', 'data');
@@ -10346,7 +10355,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;var __extends = 
             var _this = _super.call(this, options) || this;
             _this.controls = _this.addView(new StoryEditorControls(), ' StoryEditorControls_controls_style');
             _this.storyAndPlayer = _this.addView(new StoryAndPlayer(), '');
-            _this.el.className += ' col';
+            _this.el.className += ' row-fill col';
             _this.el.className += ' StoryEditor_style';
             _this.addBinding('controls', 'update', 'data');
             _this.addBinding('storyAndPlayer', 'update', 'data');
@@ -10517,10 +10526,10 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;var __extends = 
     exports.Input = Input;
     __SyncNode_SyncView_1.SyncView.addGlobalStyle('.input_input_style', "\n            flex: 1;\n            font-size: 1em;\n            padding: 0.5em 0;\n            background-color: transparent;\n            border: none;\n            border-bottom: 1px solid rgba(0,0,0,0.5);\n    ");
     __SyncNode_SyncView_1.SyncView.addGlobalStyle('.MainView_style', " \n        position: absolute;\n        left: 0; top: 0; right: 0; bottom: 0;\n    ");
-    __SyncNode_SyncView_1.SyncView.addGlobalStyle('.StoryList_style', "\n        border-right: 1px solid #BBB;\n        position: absolute;\n        left: 0; top: 0; bottom: 0;\n        width: 200px;\n        padding: 0 1em;\n        box-sizing: border-box;\n    ");
+    __SyncNode_SyncView_1.SyncView.addGlobalStyle('.StoryList_style', "\n        border-right: 1px solid #BBB;\n        width: 200px;\n        padding: 0 1em;\n        box-sizing: border-box;\n        position: relative;\n        overflow: hidden;\n    ");
     __SyncNode_SyncView_1.SyncView.addGlobalStyle('.StoryItem_style', " \n        width: 100%; \n        border: 1px solid #DDD;\n        ");
     __SyncNode_SyncView_1.SyncView.addGlobalStyle('.StoryAndPlayer_style', " height: 100%; ");
-    __SyncNode_SyncView_1.SyncView.addGlobalStyle('.StoryEditor_style', "\n        position: absolute;\n        left: 200px;\n        right: 0; top: 0; bottom: 0;\n        padding: 1em;\n    ");
+    __SyncNode_SyncView_1.SyncView.addGlobalStyle('.StoryEditor_style', "\n        padding: 1em;\n    ");
     __SyncNode_SyncView_1.SyncView.addGlobalStyle('.Input_style', " \n        width: 100%;\n        display: flex; \n    ");
     var app = new __SyncNode_SyncView_1.SyncApp(new MainView());
     app.start();

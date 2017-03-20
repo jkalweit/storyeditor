@@ -34,7 +34,7 @@ export interface StoryNodeOption extends SyncData {
 }
 
 
-MainView<MainData>
+MainView<MainData>[row]
     @{ 
         selectedStory: Story;
         something: string;
@@ -43,12 +43,12 @@ MainView<MainData>
         position: absolute;
         left: 0; top: 0; right: 0; bottom: 0;
     }
-    #storyList:StoryList $data.stories
+    #storyList:StoryList[row-nofill] $data.stories
         onSelected(story: Story) {
             (this as any).selectedStory = story;
             this.editor.update(story);
         }
-    #editor:StoryEditor
+    #editor:StoryEditor[row-fill]
     render() { 
         if(!this.data.stories) this.data.set('stories', {});
         if((this as any).selectedStory) (this as any).selectedStory = this.data.stories[(this as any).selectedStory.key];
@@ -59,16 +59,26 @@ MainView<MainData>
         this.editor.update(this.selectedStory);
     }
 
-StoryList
+StoryList[row-nofill]
+    @{
+        isClosed: boolean = false;
+    }
     .style {
         border-right: 1px solid #BBB;
-        position: absolute;
-        left: 0; top: 0; bottom: 0;
         width: 200px;
         padding: 0 1em;
         box-sizing: border-box;
+        position: relative;
+        overflow: hidden;
     }
-    #title:h1 'Story Lines'
+    #hideDrawer:button '<'
+        .style { position: absolute; top: 0; right: 0; }
+        onClick() {
+            this.isClosed = !this.isClosed;
+            this.el.style.width = this.isClosed ? '50px' : '200px';
+            this.hideDrawer.innerHTML = this.isClosed ? '>' : '<';
+        }
+    #title:h1 'Stories'
     #addBtn:button 'Add Story' 
         .style { width: 100%; }
         onClick() {
@@ -93,7 +103,8 @@ StoryItem
     }
 
 StoryEditorControls[row]
-    #title:Input({ twoway: true, label: 'Title', key: 'title' })[row-fill] $data
+    #title:Input({ twoway: true, label: 'Title', key: 'title' })[row-nofill] $data
+    #fill[row-fill]
     #delBtn:button[row-nofill] 'Delete Story' onClick() { 
         if(confirm('Delete story?')) {
             this.data.parent.remove(this.data.key); this.hide(); 
@@ -179,12 +190,9 @@ StoryAndPlayer<Story>[row]
     }
 
 
-StoryEditor[col]
+StoryEditor[row-fill col]
     @{ saveHandle: number; }
     .style {
-        position: absolute;
-        left: 200px;
-        right: 0; top: 0; bottom: 0;
         padding: 1em;
     }
     #controls:StoryEditorControls[col-nofill] $data

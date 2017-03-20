@@ -44,7 +44,7 @@ export class MainView extends SyncView<MainData> {
 	editor = this.addView(new StoryEditor(), '');
 	constructor(options: any = {}) {
 		super(options);
-		this.el.className += ' ';
+		this.el.className += ' row';
 		this.el.className += ' MainView_style';
 		this.storyList.on('selected', (story: Story) => { 
             (this as any).selectedStory = story;
@@ -64,13 +64,22 @@ export class MainView extends SyncView<MainData> {
 }
 
 export class StoryList extends SyncView<SyncData> {
-	title = this.add('h1', {"innerHTML":"Story Lines","className":""});
+
+        isClosed: boolean = false;
+    
+ 	hideDrawer = this.add('button', {"innerHTML":"<","className":" button_hideDrawer_style"});
+	title = this.add('h1', {"innerHTML":"Stories","className":""});
 	addBtn = this.add('button', {"innerHTML":"Add Story","className":" button_addBtn_style"});
 	storyItemList = this.addView(new SyncList({ item: StoryItem }), ' SyncList_storyItemList_style');
 	constructor(options: any = {}) {
 		super(options);
-		this.el.className += ' ';
+		this.el.className += ' row-nofill';
 		this.el.className += ' StoryList_style';
+		this.hideDrawer.addEventListener('click', () => { 
+            this.isClosed = !this.isClosed;
+            this.el.style.width = this.isClosed ? '50px' : '200px';
+            this.hideDrawer.innerHTML = this.isClosed ? '>' : '<';
+         });
 		this.addBtn.addEventListener('click', () => { 
             let story: Story = {
                 title: 'New Story',
@@ -83,6 +92,7 @@ export class StoryList extends SyncView<SyncData> {
 	}
 }
 
+SyncView.addGlobalStyle('.button_hideDrawer_style', ` position: absolute; top: 0; right: 0; `);
 SyncView.addGlobalStyle('.button_addBtn_style', ` width: 100%; `);
 SyncView.addGlobalStyle('.SyncList_storyItemList_style', ` width: 100%; margin-top: 1em; `);
 export class StoryItem extends SyncView<SyncData> {
@@ -101,6 +111,7 @@ export class StoryItem extends SyncView<SyncData> {
 
 export class StoryEditorControls extends SyncView<SyncData> {
 	title = this.addView(new Input({ twoway: true, label: 'Title', key: 'title' }), '');
+	fill = this.add('div', {"innerHTML":"","className":" row-fill"});
 	delBtn = this.add('button', {"innerHTML":"Delete Story","className":" row-nofill"});
 	constructor(options: any = {}) {
 		super(options);
@@ -179,7 +190,7 @@ export class StoryEditor extends SyncView<SyncData> {
 	storyAndPlayer = this.addView(new StoryAndPlayer(), '');
 	constructor(options: any = {}) {
 		super(options);
-		this.el.className += ' col';
+		this.el.className += ' row-fill col';
 		this.el.className += ' StoryEditor_style';
 		this.addBinding('controls', 'update', 'data');
 		this.addBinding('storyAndPlayer', 'update', 'data');
@@ -343,11 +354,11 @@ SyncView.addGlobalStyle('.MainView_style', `
     `);
 SyncView.addGlobalStyle('.StoryList_style', `
         border-right: 1px solid #BBB;
-        position: absolute;
-        left: 0; top: 0; bottom: 0;
         width: 200px;
         padding: 0 1em;
         box-sizing: border-box;
+        position: relative;
+        overflow: hidden;
     `);
 SyncView.addGlobalStyle('.StoryItem_style', ` 
         width: 100%; 
@@ -355,9 +366,6 @@ SyncView.addGlobalStyle('.StoryItem_style', `
         `);
 SyncView.addGlobalStyle('.StoryAndPlayer_style', ` height: 100%; `);
 SyncView.addGlobalStyle('.StoryEditor_style', `
-        position: absolute;
-        left: 200px;
-        right: 0; top: 0; bottom: 0;
         padding: 1em;
     `);
 SyncView.addGlobalStyle('.Input_style', ` 
