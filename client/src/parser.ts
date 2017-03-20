@@ -121,6 +121,7 @@ export interface NextNode extends ProgNode {
 }
 
 export interface PromptOptionNode extends ProgNode {
+    id: number;
     text: string;
     next: NextNode;
 }
@@ -172,6 +173,8 @@ export function parsePrompt(indentation: number): PromptNode {
     };
 }
 
+let optionId: number = 0;
+
 function parseOption(): PromptOptionNode | undefined {
     const indentation = countIndentation(tokenValue());
     nextToken();
@@ -190,6 +193,7 @@ function parseOption(): PromptOptionNode | undefined {
     } else {
        return {
            kind: NodeKind.PromptOption,
+           id: optionId++,
            text: text,
            next: next
         };

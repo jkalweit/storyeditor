@@ -53,6 +53,7 @@ export interface SyncData {
 	version: string;
 	parent: SyncData;
 	[key: string]: any;
+	get(path: string): any;
 	set(key: string, val: any): void;
 	setItem(val: any): void;
 	merge(val: any): void;

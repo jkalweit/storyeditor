@@ -3886,6 +3886,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_
         };
     }
     exports.parsePrompt = parsePrompt;
+    var optionId = 0;
     function parseOption() {
         var indentation = countIndentation(tokenValue());
         nextToken();
@@ -3905,6 +3906,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_
         else {
             return {
                 kind: NodeKind.PromptOption,
+                id: optionId++,
                 text: text,
                 next: next
             };
@@ -9813,8 +9815,9 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;var __extends = 
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__, exports, __webpack_require__(21), __webpack_require__(22)], __WEBPACK_AMD_DEFINE_RESULT__ = function (require, exports, __SyncNode_SyncView_1, parser_1) {
+!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__, exports, __webpack_require__(21), __webpack_require__(22), __webpack_require__(57)], __WEBPACK_AMD_DEFINE_RESULT__ = function (require, exports, __SyncNode_SyncView_1, parser_1, smoothscroll) {
     "use strict";
+    smoothscroll.polyfill();
     var MainView = (function (_super) {
         __extends(MainView, _super);
         function MainView(options) {
@@ -9898,7 +9901,12 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;var __extends = 
             _this.delBtn = _this.add('button', { "innerHTML": "Delete Story", "className": " row-nofill" });
             _this.el.className += ' row';
             _this.addBinding('title', 'update', 'data');
-            _this.delBtn.addEventListener('click', function () { _this.data.parent.remove(_this.data.key); _this.hide(); });
+            _this.delBtn.addEventListener('click', function () {
+                if (confirm('Delete story?')) {
+                    _this.data.parent.remove(_this.data.key);
+                    _this.hide();
+                }
+            });
             return _this;
         }
         return StoryEditorControls;
@@ -9982,35 +9990,70 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;var __extends = 
         function Player(options) {
             if (options === void 0) { options = {}; }
             var _this = _super.call(this, options) || this;
+            _this.progress = [];
+            _this.waitDisabled = false;
+            _this.btnRestart = _this.add('button', { "innerHTML": "Restart", "className": "" });
+            _this.btnWaitDisabled = _this.add('button', { "innerHTML": "", "className": "" });
             _this.output = _this.add('div', { "innerHTML": "", "className": "" });
             _this.el.className += ' ';
+            _this.btnRestart.addEventListener('click', function () { _this.play(_this.prog); });
+            _this.btnWaitDisabled.addEventListener('click', function () {
+                _this.waitDisabled = !_this.waitDisabled;
+                _this.render();
+            });
             return _this;
         }
         Player.prototype.play = function (prog) {
+            this.render();
             this.prog = prog;
             this.output.innerHTML = '';
-            console.log('playing...', this.data);
             var firstChapter = prog[0];
             this.displayPrompt(firstChapter.prompts[0]);
         };
-        Player.prototype.displayPrompt = function (prompt) {
+        Player.prototype.displayPrompt = function (prompt, args) {
             var _this = this;
+            if (args === void 0) { args = ''; }
+            console.log('prompt', prompt, args);
             var out = document.createElement('div');
             out.style.border = '1px solid #CCC';
             out.style.padding = '1em';
-            out.innerHTML = prompt.text;
+            var innerHTML = prompt.text;
+            if (prompt.args && args) {
+                var promptArgs = prompt.args.split(',');
+                var givenArgs = args.split(',');
+                for (var i = 0; i < promptArgs.length && i < givenArgs.length; i++) {
+                    // Remove double quotes at beginning and end:
+                    var val = givenArgs[i].replace(/^"(.+(?="$))"$/, '$1');
+                    ;
+                    innerHTML = innerHTML.replace('{' + promptArgs[i] + '}', val);
+                }
+            }
+            out.innerHTML = innerHTML;
+            out.classList.add('fadeIn');
             this.output.appendChild(out);
-            prompt.options.forEach(function (option) { return _this.displayPromptOption(option); });
+            var delay = 500;
+            if (prompt.next) {
+                console.log('prompt.next', prompt.next);
+                this.displayNext(prompt.next);
+            }
+            else {
+                prompt.options.forEach(function (option) {
+                    _this.displayPromptOption(option, delay);
+                    delay += 500;
+                });
+            }
             //this.el.scrollTop = this.el.scrollHeight;
+            out.scrollIntoView({ behavior: 'smooth', block: 'end' });
         };
-        Player.prototype.displayPromptByName = function (name) {
+        Player.prototype.displayPromptByName = function (name, args) {
             var _this = this;
-            name = name.toLowerCase();
+            if (args === void 0) { args = ''; }
+            name = name.trim();
             var found = false;
             this.prog.forEach(function (chapter) {
                 chapter.prompts.forEach(function (prompt) {
                     if (prompt.name.toLowerCase() === name) {
-                        _this.displayPrompt(prompt);
+                        _this.displayPrompt(prompt, args);
                         found = true;
                     }
                 });
@@ -10018,7 +10061,32 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;var __extends = 
             if (!found)
                 console.error('Could not find prompt: ', name);
         };
-        Player.prototype.displayPromptOption = function (option) {
+        Player.prototype.displayNext = function (next) {
+            var _this = this;
+            var name = next.next.toLowerCase();
+            if (name === 'wait') {
+                var args = next.args.split(',');
+                if (args.length >= 2) {
+                    var waitTime = parseInt(args[0]);
+                    if (waitTime === NaN) {
+                        console.error('Invalid wait time');
+                    }
+                    var nextPromptName_1 = args[1];
+                    if (this.waitDisabled)
+                        waitTime = 0;
+                    setTimeout(function () {
+                        _this.displayPromptByName(nextPromptName_1);
+                    }, waitTime * 1000);
+                }
+                else {
+                    console.error('wait(time, next) requires at least 2 arguments.');
+                }
+            }
+            else {
+                this.displayPromptByName(name, next.args);
+            }
+        };
+        Player.prototype.displayPromptOption = function (option, delay) {
             var _this = this;
             var out = document.createElement('div');
             out.style.marginLeft = '2em';
@@ -10026,10 +10094,22 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;var __extends = 
             out.style.border = '1px solid #CCC';
             out.innerHTML = option.text;
             out.addEventListener('click', function () {
-                _this.displayPromptByName(option.next.next);
+                _this.progress.push(option);
+                console.log('progress', _this.progress);
+                out.style.backgroundColor = '#9D9';
+                out.classList.add('fadeGreen');
+                _this.displayNext(option.next);
             });
+            out.style.opacity = '0';
             this.output.appendChild(out);
-            out.scrollIntoView({ behavior: 'smooth' });
+            setTimeout(function () {
+                out.style.opacity = '1';
+                out.classList.add('fadeIn');
+            }, delay);
+            out.scrollIntoView({ behavior: 'smooth', block: 'end' });
+        };
+        Player.prototype.render = function () {
+            this.btnWaitDisabled.innerHTML = this.waitDisabled ? 'Wait Disabled' : 'Wait Enabled';
         };
         return Player;
     }(__SyncNode_SyncView_1.SyncView));
@@ -10072,6 +10152,343 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;var __extends = 
     new __SyncNode_SyncView_1.SyncReloader().start();
 }.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__),
 				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+
+
+/***/ }),
+/* 57 */
+/***/ (function(module, exports, __webpack_require__) {
+
+/*
+ * smoothscroll polyfill - v0.3.4
+ * https://iamdustan.github.io/smoothscroll
+ * 2016 (c) Dustan Kasten, Jeremias Menichelli - MIT License
+ */
+
+(function(w, d, undefined) {
+  'use strict';
+
+  /*
+   * aliases
+   * w: window global object
+   * d: document
+   * undefined: undefined
+   */
+
+  // polyfill
+  function polyfill() {
+    // return when scrollBehavior interface is supported
+    if ('scrollBehavior' in d.documentElement.style) {
+      return;
+    }
+
+    /*
+     * globals
+     */
+    var Element = w.HTMLElement || w.Element;
+    var SCROLL_TIME = 468;
+
+    /*
+     * object gathering original scroll methods
+     */
+    var original = {
+      scroll: w.scroll || w.scrollTo,
+      scrollBy: w.scrollBy,
+      elScroll: Element.prototype.scroll || scrollElement,
+      scrollIntoView: Element.prototype.scrollIntoView
+    };
+
+    /*
+     * define timing method
+     */
+    var now = w.performance && w.performance.now
+      ? w.performance.now.bind(w.performance) : Date.now;
+
+    /**
+     * changes scroll position inside an element
+     * @method scrollElement
+     * @param {Number} x
+     * @param {Number} y
+     */
+    function scrollElement(x, y) {
+      this.scrollLeft = x;
+      this.scrollTop = y;
+    }
+
+    /**
+     * returns result of applying ease math function to a number
+     * @method ease
+     * @param {Number} k
+     * @returns {Number}
+     */
+    function ease(k) {
+      return 0.5 * (1 - Math.cos(Math.PI * k));
+    }
+
+    /**
+     * indicates if a smooth behavior should be applied
+     * @method shouldBailOut
+     * @param {Number|Object} x
+     * @returns {Boolean}
+     */
+    function shouldBailOut(x) {
+      if (typeof x !== 'object'
+            || x === null
+            || x.behavior === undefined
+            || x.behavior === 'auto'
+            || x.behavior === 'instant') {
+        // first arg not an object/null
+        // or behavior is auto, instant or undefined
+        return true;
+      }
+
+      if (typeof x === 'object'
+            && x.behavior === 'smooth') {
+        // first argument is an object and behavior is smooth
+        return false;
+      }
+
+      // throw error when behavior is not supported
+      throw new TypeError('behavior not valid');
+    }
+
+    /**
+     * finds scrollable parent of an element
+     * @method findScrollableParent
+     * @param {Node} el
+     * @returns {Node} el
+     */
+    function findScrollableParent(el) {
+      var isBody;
+      var hasScrollableSpace;
+      var hasVisibleOverflow;
+
+      do {
+        el = el.parentNode;
+
+        // set condition variables
+        isBody = el === d.body;
+        hasScrollableSpace =
+          el.clientHeight < el.scrollHeight ||
+          el.clientWidth < el.scrollWidth;
+        hasVisibleOverflow =
+          w.getComputedStyle(el, null).overflow === 'visible';
+      } while (!isBody && !(hasScrollableSpace && !hasVisibleOverflow));
+
+      isBody = hasScrollableSpace = hasVisibleOverflow = null;
+
+      return el;
+    }
+
+    /**
+     * self invoked function that, given a context, steps through scrolling
+     * @method step
+     * @param {Object} context
+     */
+    function step(context) {
+      // call method again on next available frame
+      context.frame = w.requestAnimationFrame(step.bind(w, context));
+
+      var time = now();
+      var value;
+      var currentX;
+      var currentY;
+      var elapsed = (time - context.startTime) / SCROLL_TIME;
+
+      // avoid elapsed times higher than one
+      elapsed = elapsed > 1 ? 1 : elapsed;
+
+      // apply easing to elapsed time
+      value = ease(elapsed);
+
+      currentX = context.startX + (context.x - context.startX) * value;
+      currentY = context.startY + (context.y - context.startY) * value;
+
+      context.method.call(context.scrollable, currentX, currentY);
+
+      // return when end points have been reached
+      if (currentX === context.x && currentY === context.y) {
+        w.cancelAnimationFrame(context.frame);
+        return;
+      }
+    }
+
+    /**
+     * scrolls window with a smooth behavior
+     * @method smoothScroll
+     * @param {Object|Node} el
+     * @param {Number} x
+     * @param {Number} y
+     */
+    function smoothScroll(el, x, y) {
+      var scrollable;
+      var startX;
+      var startY;
+      var method;
+      var startTime = now();
+      var frame;
+
+      // define scroll context
+      if (el === d.body) {
+        scrollable = w;
+        startX = w.scrollX || w.pageXOffset;
+        startY = w.scrollY || w.pageYOffset;
+        method = original.scroll;
+      } else {
+        scrollable = el;
+        startX = el.scrollLeft;
+        startY = el.scrollTop;
+        method = scrollElement;
+      }
+
+      // cancel frame when a scroll event's happening
+      if (frame) {
+        w.cancelAnimationFrame(frame);
+      }
+
+      // scroll looping over a frame
+      step({
+        scrollable: scrollable,
+        method: method,
+        startTime: startTime,
+        startX: startX,
+        startY: startY,
+        x: x,
+        y: y,
+        frame: frame
+      });
+    }
+
+    /*
+     * ORIGINAL METHODS OVERRIDES
+     */
+
+    // w.scroll and w.scrollTo
+    w.scroll = w.scrollTo = function() {
+      // avoid smooth behavior if not required
+      if (shouldBailOut(arguments[0])) {
+        original.scroll.call(
+          w,
+          arguments[0].left || arguments[0],
+          arguments[0].top || arguments[1]
+        );
+        return;
+      }
+
+      // LET THE SMOOTHNESS BEGIN!
+      smoothScroll.call(
+        w,
+        d.body,
+        ~~arguments[0].left,
+        ~~arguments[0].top
+      );
+    };
+
+    // w.scrollBy
+    w.scrollBy = function() {
+      // avoid smooth behavior if not required
+      if (shouldBailOut(arguments[0])) {
+        original.scrollBy.call(
+          w,
+          arguments[0].left || arguments[0],
+          arguments[0].top || arguments[1]
+        );
+        return;
+      }
+
+      // LET THE SMOOTHNESS BEGIN!
+      smoothScroll.call(
+        w,
+        d.body,
+        ~~arguments[0].left + (w.scrollX || w.pageXOffset),
+        ~~arguments[0].top + (w.scrollY || w.pageYOffset)
+      );
+    };
+
+    // Element.prototype.scroll and Element.prototype.scrollTo
+    Element.prototype.scroll = Element.prototype.scrollTo = function() {
+      // avoid smooth behavior if not required
+      if (shouldBailOut(arguments[0])) {
+        original.elScroll.call(
+            this,
+            arguments[0].left || arguments[0],
+            arguments[0].top || arguments[1]
+        );
+        return;
+      }
+
+      // LET THE SMOOTHNESS BEGIN!
+      smoothScroll.call(
+          this,
+          this,
+          arguments[0].left,
+          arguments[0].top
+      );
+    };
+
+    // Element.prototype.scrollBy
+    Element.prototype.scrollBy = function() {
+      var arg0 = arguments[0];
+
+      if (typeof arg0 === 'object') {
+        this.scroll({
+          left: arg0.left + this.scrollLeft,
+          top: arg0.top + this.scrollTop,
+          behavior: arg0.behavior
+        });
+      } else {
+        this.scroll(
+          this.scrollLeft + arg0,
+          this.scrollTop + arguments[1]
+        );
+      }
+    };
+
+    // Element.prototype.scrollIntoView
+    Element.prototype.scrollIntoView = function() {
+      // avoid smooth behavior if not required
+      if (shouldBailOut(arguments[0])) {
+        original.scrollIntoView.call(this, arguments[0] || true);
+        return;
+      }
+
+      // LET THE SMOOTHNESS BEGIN!
+      var scrollableParent = findScrollableParent(this);
+      var parentRects = scrollableParent.getBoundingClientRect();
+      var clientRects = this.getBoundingClientRect();
+
+      if (scrollableParent !== d.body) {
+        // reveal element inside parent
+        smoothScroll.call(
+          this,
+          scrollableParent,
+          scrollableParent.scrollLeft + clientRects.left - parentRects.left,
+          scrollableParent.scrollTop + clientRects.top - parentRects.top
+        );
+        // reveal parent in viewport
+        w.scrollBy({
+          left: parentRects.left,
+          top: parentRects.top,
+          behavior: 'smooth'
+        });
+      } else {
+        // reveal element in viewport
+        w.scrollBy({
+          left: clientRects.left,
+          top: clientRects.top,
+          behavior: 'smooth'
+        });
+      }
+    };
+  }
+
+  if (true) {
+    // commonjs
+    module.exports = { polyfill: polyfill };
+  } else {
+    // global
+    polyfill();
+  }
+})(window, document);
 
 
 /***/ })

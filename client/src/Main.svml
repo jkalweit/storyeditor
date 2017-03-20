@@ -1,6 +1,12 @@
 {
-import { parse, ProgNode, ChapterNode, PromptNode, PromptOptionNode } from './parser';
+import { parse, ProgNode, ChapterNode, PromptNode, PromptOptionNode, NextNode } from './parser';
+import * as smoothscroll from './lib/smoothscroll'
 
+smoothscroll.polyfill();
+
+export interface MainData extends SyncData {
+    stories: {[key: string]: Story};
+}
 
 export interface Story extends SyncData {
     title: string;
@@ -17,9 +23,10 @@ export interface StoryNodeOption extends SyncData {
 }
 
 
-MainView
+MainView<MainData>
     @{ 
         selectedStory: Story;
+        something: string;
     }
     .style { 
         position: absolute;
@@ -76,9 +83,14 @@ StoryItem
 
 StoryEditorControls[row]
     #title:Input({ twoway: true, label: 'Title', key: 'title' })[row-fill] $data
-    #delBtn:button[row-nofill] 'Delete Story' onClick() { this.data.parent.remove(this.data.key); this.hide(); }
+    #delBtn:button[row-nofill] 'Delete Story' onClick() { 
+        if(confirm('Delete story?')) {
+            this.data.parent.remove(this.data.key); this.hide(); 
+        }
+    }
 
-StoryAndPlayer[row]
+StoryAndPlayer<Story>[row]
+    @{ saveHandle: number; }
     .style { height: 100%; }
     #story:textarea[row-fill]
         .style {
@@ -145,50 +157,111 @@ StoryEditor[col]
     #storyAndPlayer:StoryAndPlayer[col-fill] $data
 
 Player
-    #output
     @{
         prog: ProgNode[];
+        progress: PromptOptionNode[] = [];
+        waitDisabled: boolean = false;
     }
+    #btnRestart:button 'Restart' onClick() { this.play(this.prog) }
+    #btnWaitDisabled:button '' onClick() { 
+        this.waitDisabled = !this.waitDisabled;
+        this.render(); }
+    #output
     play(prog: ProgNode[]) {
+        this.render();
         this.prog = prog;
         this.output.innerHTML = '';
-        console.log('playing...', this.data);
         let firstChapter = prog[0] as ChapterNode;
         this.displayPrompt(firstChapter.prompts[0]);
     }
-    displayPrompt(prompt: PromptNode) {
+    displayPrompt(prompt: PromptNode, args: string = '') {
+        console.log('prompt', prompt, args);
         let out = document.createElement('div');
         out.style.border = '1px solid #CCC';
         out.style.padding = '1em';
-        out.innerHTML = prompt.text;
+        let innerHTML = prompt.text;
+        if(prompt.args && args) {
+            let promptArgs = prompt.args.split(',');
+            let givenArgs = args.split(',');
+            for(let i = 0; i < promptArgs.length && i < givenArgs.length; i++) {
+                // Remove double quotes at beginning and end:
+                let val = givenArgs[i].replace(/^"(.+(?="$))"$/, '$1');;
+                innerHTML = innerHTML.replace('{' + promptArgs[i] + '}', val);
+            }
+        }
+        out.innerHTML = innerHTML;
+        out.classList.add('fadeIn');
         this.output.appendChild(out);
-        prompt.options.forEach((option) => this.displayPromptOption(option));
+        let delay = 500;
+        if(prompt.next) {
+            console.log('prompt.next', prompt.next);
+            this.displayNext(prompt.next);
+        } else {
+            prompt.options.forEach((option) => {
+                this.displayPromptOption(option, delay);
+                delay += 500;
+            });
+        }
         //this.el.scrollTop = this.el.scrollHeight;
+        out.scrollIntoView({ behavior: 'smooth', block: 'end' });
     }
-    displayPromptByName(name: string) {
-        name = name.toLowerCase();
+    displayPromptByName(name: string, args: string = '') {
+        name = name.trim();
         let found = false;
         this.prog.forEach((chapter: ChapterNode) => {
             chapter.prompts.forEach((prompt) => {
                 if(prompt.name.toLowerCase() === name) {
-                    this.displayPrompt(prompt);
+                    this.displayPrompt(prompt, args);
                     found = true;
                 }
             });
         });
         if(!found) console.error('Could not find prompt: ', name);
     }
-    displayPromptOption(option: PromptOptionNode) {
+    displayNext(next: NextNode) {
+        let name = next.next.toLowerCase();
+        if(name === 'wait') {
+            let args = next.args.split(',');
+            if(args.length >=2) {
+                let waitTime = parseInt(args[0]);
+                if(waitTime === NaN) {
+                    console.error('Invalid wait time');
+                }
+                let nextPromptName = args[1];
+                if(this.waitDisabled) waitTime = 0;
+                setTimeout(() => {
+                    this.displayPromptByName(nextPromptName);
+                }, waitTime * 1000);
+            } else {
+                console.error('wait(time, next) requires at least 2 arguments.')
+            }
+        } else {
+            this.displayPromptByName(name, next.args);
+        }
+    }
+    displayPromptOption(option: PromptOptionNode, delay: number) {
         let out = document.createElement('div');
         out.style.marginLeft = '2em';
         out.style.padding = '.5em';
         out.style.border = '1px solid #CCC';
         out.innerHTML = option.text;
         out.addEventListener('click', () => {
-            this.displayPromptByName(option.next.next);
+            this.progress.push(option);
+            console.log('progress', this.progress);
+            out.style.backgroundColor = '#9D9';
+            out.classList.add('fadeGreen');
+            this.displayNext(option.next);
         });
+        out.style.opacity = '0';
         this.output.appendChild(out);
-        out.scrollIntoView({ behavior: 'smooth' });
+        setTimeout(() => {
+            out.style.opacity = '1';
+            out.classList.add('fadeIn');
+        }, delay);
+        out.scrollIntoView({ behavior: 'smooth', block: 'end' });
+    }
+    render() {
+        this.btnWaitDisabled.innerHTML = this.waitDisabled ? 'Wait Disabled' : 'Wait Enabled';
     }
 
 

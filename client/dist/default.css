@@ -40,6 +40,19 @@ h1,h2,h3 {
   flex: 0 0 auto;
 }
 
+.smooth-scroll {
+	scroll-behavior: smooth;
+}
+
+ @keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
+ @keyframes fadeGreen { from { background-color:#fff; } to { background-color: #9D9; } }
+
+.fadeIn {
+   animation: fadeIn .5s ease-in-out 0s;
+}
+.fadeGreen {
+   animation: fadeGreen .5s ease-in-out 0s;
+}
 
 @font-face {
 	font-family: 'Material Icons';
